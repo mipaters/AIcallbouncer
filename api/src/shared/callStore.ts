@@ -7,6 +7,8 @@ const SETTINGS_TABLE = "ConciergeSettings";
 const CALLS_PARTITION = "call";
 const SETTINGS_PARTITION = "settings";
 const FORWARDING_NUMBER_ROW = "forwardingNumber";
+const GREETING_ROW = "greeting";
+const APPROVED_NUMBERS_ROW = "approvedNumbers";
 
 export interface TranscriptLine {
   speaker: "caller" | "ai";
@@ -121,4 +123,64 @@ export async function setForwardingNumber(number: string): Promise<void> {
     { partitionKey: SETTINGS_PARTITION, rowKey: FORWARDING_NUMBER_ROW, value: number },
     "Replace",
   );
+}
+
+/** Returns the customized greeting, or null if none has been saved (caller should fall back to a default). */
+export async function getGreeting(): Promise<string | null> {
+  const client = getTableClient(SETTINGS_TABLE);
+  if (!client) return null;
+  await ensureTablesExist();
+  try {
+    const entity = await client.getEntity<{ value: string }>(SETTINGS_PARTITION, GREETING_ROW);
+    return entity.value || null;
+  } catch {
+    return null;
+  }
+}
+
+export async function setGreeting(greeting: string): Promise<void> {
+  const client = getTableClient(SETTINGS_TABLE);
+  if (!client) throw new Error("Call storage is not configured (AZURE_STORAGE_CONNECTION_STRING missing).");
+  await ensureTablesExist();
+  await client.upsertEntity(
+    { partitionKey: SETTINGS_PARTITION, rowKey: GREETING_ROW, value: greeting },
+    "Replace",
+  );
+}
+
+/** Strips formatting so phone numbers can be compared regardless of minor format differences (e.g. a missing country code). */
+export function normalizePhoneNumber(value: string): string {
+  const digits = value.replace(/\D/g, "");
+  return digits.slice(-10) || digits;
+}
+
+export async function getApprovedNumbers(): Promise<string[]> {
+  const client = getTableClient(SETTINGS_TABLE);
+  if (!client) return [];
+  await ensureTablesExist();
+  try {
+    const entity = await client.getEntity<{ value: string }>(SETTINGS_PARTITION, APPROVED_NUMBERS_ROW);
+    const parsed = JSON.parse(entity.value || "[]");
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
+
+export async function setApprovedNumbers(numbers: string[]): Promise<void> {
+  const client = getTableClient(SETTINGS_TABLE);
+  if (!client) throw new Error("Call storage is not configured (AZURE_STORAGE_CONNECTION_STRING missing).");
+  await ensureTablesExist();
+  await client.upsertEntity(
+    { partitionKey: SETTINGS_PARTITION, rowKey: APPROVED_NUMBERS_ROW, value: JSON.stringify(numbers) },
+    "Replace",
+  );
+}
+
+export async function isApprovedNumber(fromNumber: string | undefined | null): Promise<boolean> {
+  if (!fromNumber) return false;
+  const approved = await getApprovedNumbers();
+  if (approved.length === 0) return false;
+  const normalizedFrom = normalizePhoneNumber(fromNumber);
+  return approved.some((n) => normalizePhoneNumber(n) === normalizedFrom);
 }

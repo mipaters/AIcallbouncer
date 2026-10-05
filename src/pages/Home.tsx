@@ -19,8 +19,8 @@ export function Home() {
         <h1>Your calls. Your time. Your rules.</h1>
         <p>Concierge AI answers unfamiliar callers, finds out what they need, and only puts through the calls that matter.</p>
         <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
-          <Link to="/live-demo" className="btn btn-primary">
-            Simulate an incoming call
+          <Link to="/live-calls" className="btn btn-primary">
+            Live demo
           </Link>
           <Link to="/preferences" className="btn btn-secondary">
             Set my call preferences

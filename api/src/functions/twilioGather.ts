@@ -50,7 +50,9 @@ export async function twilioGather(request: HttpRequest, context: InvocationCont
 
   record.transcript.push({ speaker: "caller", text: callerText, timestamp: now });
 
-  // Real inbound callers are never matched against the client-side demo
+  // Approved numbers (real-call bypass list) are already checked in
+  // twilioVoice before a call ever reaches this gather step. Real inbound
+  // callers are never matched against the separate client-side demo
   // trusted-callers list (that list only exists in the browser's session
   // storage). This is a documented limitation — see README.
   const decision = await resolveCallerAnalysis(callerText, false);

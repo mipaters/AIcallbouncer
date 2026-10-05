@@ -129,6 +129,155 @@ function ForwardingNumberCard() {
   );
 }
 
+function GreetingCard() {
+  const [greeting, setGreetingText] = useState("");
+  const [saved, setSaved] = useState<string | null>(null);
+  const [status, setStatus] = useState<"idle" | "saving" | "error">("idle");
+  const [configured, setConfigured] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/concierge-greeting")
+      .then((res) => res.json())
+      .then((data: { configured: boolean; greeting: string }) => {
+        setConfigured(data.configured);
+        setGreetingText(data.greeting);
+        setSaved(data.greeting);
+      })
+      .catch(() => undefined);
+  }, []);
+
+  const handleSave = async () => {
+    setStatus("saving");
+    try {
+      const res = await fetch("/api/concierge-greeting", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ greeting }),
+      });
+      if (!res.ok) throw new Error("Save failed");
+      setSaved(greeting);
+      setStatus("idle");
+    } catch {
+      setStatus("error");
+    }
+  };
+
+  return (
+    <div className="card">
+      <div className="section-title" style={{ marginTop: 0 }}>Concierge AI greeting</div>
+      <p className="card-soft">
+        What Concierge AI says at the start of every screened real call, before it starts asking the caller
+        questions.
+      </p>
+      {!configured && (
+        <p className="card-soft" style={{ color: "var(--rogers-red)" }}>
+          The greeting can't be customized yet — add <code>AZURE_STORAGE_CONNECTION_STRING</code> as a Function App
+          setting first (see README).
+        </p>
+      )}
+      <textarea
+        className="text-input"
+        rows={3}
+        disabled={!configured}
+        value={greeting}
+        onChange={(e) => setGreetingText(e.target.value)}
+        style={{ marginBottom: 8, width: "100%", resize: "vertical" }}
+      />
+      <button className="btn btn-solid" disabled={!configured || status === "saving" || greeting === saved} onClick={handleSave}>
+        {status === "saving" ? "Saving…" : "Save"}
+      </button>
+      {status === "error" && <p className="card-soft" style={{ color: "var(--rogers-red)" }}>Could not save — try again.</p>}
+      {saved && status === "idle" && saved === greeting && <p className="card-soft">Saved.</p>}
+    </div>
+  );
+}
+
+function ApprovedNumbersCard() {
+  const [numbers, setNumbers] = useState<string[]>([]);
+  const [input, setInput] = useState("");
+  const [status, setStatus] = useState<"idle" | "saving" | "error">("idle");
+  const [configured, setConfigured] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/approved-numbers")
+      .then((res) => res.json())
+      .then((data: { configured: boolean; numbers: string[] }) => {
+        setConfigured(data.configured);
+        setNumbers(data.numbers);
+      })
+      .catch(() => undefined);
+  }, []);
+
+  const save = async (next: string[]) => {
+    setStatus("saving");
+    try {
+      const res = await fetch("/api/approved-numbers", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ numbers: next }),
+      });
+      if (!res.ok) throw new Error("Save failed");
+      setNumbers(next);
+      setStatus("idle");
+    } catch {
+      setStatus("error");
+    }
+  };
+
+  const handleAdd = () => {
+    const trimmed = input.trim();
+    if (!trimmed || numbers.includes(trimmed)) return;
+    void save([...numbers, trimmed]);
+    setInput("");
+  };
+
+  const handleRemove = (number: string) => {
+    void save(numbers.filter((n) => n !== number));
+  };
+
+  return (
+    <div className="card">
+      <div className="section-title" style={{ marginTop: 0 }}>Approved numbers (skip screening)</div>
+      <p className="card-soft">
+        Calls from these numbers connect straight through to your forwarding number — Concierge AI never greets or
+        questions them. Use E.164 format (e.g. +12895551234).
+      </p>
+      {!configured && (
+        <p className="card-soft" style={{ color: "var(--rogers-red)" }}>
+          Approved numbers aren't available yet — add <code>AZURE_STORAGE_CONNECTION_STRING</code> as a Function App
+          setting first (see README).
+        </p>
+      )}
+      <div className="field-row">
+        <input
+          className="text-input"
+          placeholder="+12895551234"
+          value={input}
+          disabled={!configured}
+          onChange={(e) => setInput(e.target.value)}
+        />
+        <button className="btn btn-solid" disabled={!configured || status === "saving" || !input.trim()} onClick={handleAdd}>
+          Add
+        </button>
+      </div>
+      {status === "error" && <p className="card-soft" style={{ color: "var(--rogers-red)" }}>Could not save — try again.</p>}
+      {numbers.length > 0 && (
+        <div style={{ marginTop: 8 }}>
+          {numbers.map((n) => (
+            <div key={n} className="call-row">
+              <div className="caller-name">{n}</div>
+              <button className="menu-button" disabled={status === "saving"} onClick={() => handleRemove(n)} aria-label="Remove">
+                ✕
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
+      {configured && numbers.length === 0 && <div className="empty-state">No approved numbers yet.</div>}
+    </div>
+  );
+}
+
 function statusLabel(status: LiveCallRecord["status"]): string {
   switch (status) {
     case "in-progress":
@@ -162,6 +311,8 @@ export function LiveCalls() {
       </p>
 
       <ForwardingNumberCard />
+      <GreetingCard />
+      <ApprovedNumbersCard />
 
       {!configured && (
         <div className="card">
