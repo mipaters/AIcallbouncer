@@ -11,9 +11,9 @@ const GREETING = "Hello, you've reached Doorperson AI, screening calls on behalf
  */
 export async function twilioVoice(request: HttpRequest, context: InvocationContext): Promise<HttpResponseInit> {
   const params = await parseTwilioFormBody(request);
-  const { valid, skipped } = await validateTwilioRequest(request, params);
+  const { valid, skipped, debugUrl } = await validateTwilioRequest(request, params, "/api/twilio/voice");
   if (!valid) {
-    context.warn("twilioVoice: invalid Twilio signature");
+    context.warn("twilioVoice: invalid Twilio signature", { debugUrl });
     return { status: 403, body: "Invalid signature" };
   }
   if (skipped) {

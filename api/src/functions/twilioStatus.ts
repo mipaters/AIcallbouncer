@@ -12,9 +12,9 @@ const TERMINAL_STATUSES = new Set(["completed", "busy", "failed", "no-answer", "
  */
 export async function twilioStatus(request: HttpRequest, context: InvocationContext): Promise<HttpResponseInit> {
   const params = await parseTwilioFormBody(request);
-  const { valid, skipped } = await validateTwilioRequest(request, params);
+  const { valid, skipped, debugUrl } = await validateTwilioRequest(request, params, "/api/twilio/status");
   if (!valid) {
-    context.warn("twilioStatus: invalid Twilio signature");
+    context.warn("twilioStatus: invalid Twilio signature", { debugUrl });
     return { status: 403, body: "Invalid signature" };
   }
   if (skipped) {

@@ -8,25 +8,34 @@ const { twiml } = twilio;
 
 /**
  * Validates that an inbound webhook request actually came from Twilio.
- * Requires TWILIO_AUTH_TOKEN and PUBLIC_BASE_URL to be configured (the
- * request is reconstructed against the public base URL rather than trusting
- * the internal Functions request URL, which may differ behind the Static
- * Web Apps proxy). If either is missing, validation is skipped and a
- * warning is returned so the caller can log it — this keeps the demo usable
- * before those settings are configured, but should not be relied on in
- * production.
+ * Requires TWILIO_AUTH_TOKEN and PUBLIC_BASE_URL to be configured.
+ *
+ * The URL Twilio signed is reconstructed from PUBLIC_BASE_URL + a known,
+ * hardcoded public path (e.g. "/api/twilio/voice") rather than derived from
+ * the Function's own `request.url`. Azure Static Web Apps' managed-Functions
+ * proxy can present the Function runtime with an internal URL whose path
+ * doesn't reliably match the public-facing path Twilio actually called
+ * (e.g. with or without the "/api" prefix), which made signature validation
+ * fail even for genuine Twilio requests. Using the caller-supplied public
+ * path removes that ambiguity entirely.
+ *
+ * If TWILIO_AUTH_TOKEN/PUBLIC_BASE_URL are unset, validation is skipped
+ * (fails open, logged by the caller) so the demo works before those
+ * settings are configured.
  */
 export async function validateTwilioRequest(
   request: HttpRequest,
   params: Record<string, string>,
-): Promise<{ valid: boolean; skipped: boolean }> {
+  publicPath: string,
+): Promise<{ valid: boolean; skipped: boolean; debugUrl?: string }> {
   const env = readEnv();
   if (!isTwilioValidationConfigured(env)) return { valid: true, skipped: true };
 
   const signature = request.headers.get("x-twilio-signature") ?? "";
-  const url = `${env.publicBaseUrl}${new URL(request.url).pathname}`;
+  const base = (env.publicBaseUrl as string).replace(/\/+$/, "");
+  const url = `${base}${publicPath}`;
   const valid = twilio.validateRequest(env.twilioAuthToken as string, signature, url, params);
-  return { valid, skipped: false };
+  return { valid, skipped: false, debugUrl: url };
 }
 
 /** Parses a Twilio form-encoded webhook body into a plain string map. */

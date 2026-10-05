@@ -9,9 +9,9 @@ import { getCall, saveCall } from "../shared/callStore";
  */
 export async function twilioTranscription(request: HttpRequest, context: InvocationContext): Promise<HttpResponseInit> {
   const params = await parseTwilioFormBody(request);
-  const { valid, skipped } = await validateTwilioRequest(request, params);
+  const { valid, skipped, debugUrl } = await validateTwilioRequest(request, params, "/api/twilio/transcription");
   if (!valid) {
-    context.warn("twilioTranscription: invalid Twilio signature");
+    context.warn("twilioTranscription: invalid Twilio signature", { debugUrl });
     return { status: 403, body: "Invalid signature" };
   }
   if (skipped) {

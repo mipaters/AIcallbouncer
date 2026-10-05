@@ -15,9 +15,9 @@ const NO_FORWARDING_NUMBER_MESSAGE =
  */
 export async function twilioGather(request: HttpRequest, context: InvocationContext): Promise<HttpResponseInit> {
   const params = await parseTwilioFormBody(request);
-  const { valid, skipped } = await validateTwilioRequest(request, params);
+  const { valid, skipped, debugUrl } = await validateTwilioRequest(request, params, "/api/twilio/gather");
   if (!valid) {
-    context.warn("twilioGather: invalid Twilio signature");
+    context.warn("twilioGather: invalid Twilio signature", { debugUrl });
     return { status: 403, body: "Invalid signature" };
   }
   if (skipped) {
