@@ -1,0 +1,68 @@
+import type { TrustedCaller } from "../types";
+
+export const TRUSTED_CALLERS: TrustedCaller[] = [
+  {
+    id: "tc-1",
+    name: "Alex (Spouse)",
+    category: "family",
+    number: "(416) 555-0118",
+    status: "always-allow",
+    addedOn: "2025-01-14",
+  },
+  {
+    id: "tc-2",
+    name: "Riverside Public School",
+    category: "school",
+    number: "(416) 555-0142",
+    status: "always-allow",
+    addedOn: "2025-02-02",
+  },
+  {
+    id: "tc-3",
+    name: "Dr. Chen's Office",
+    category: "healthcare",
+    number: "(416) 555-0199",
+    status: "always-allow",
+    addedOn: "2025-02-20",
+  },
+  {
+    id: "tc-4",
+    name: "Lakeside Dental",
+    category: "healthcare",
+    number: "(416) 555-0176",
+    status: "always-screen",
+    addedOn: "2025-03-01",
+  },
+  {
+    id: "tc-5",
+    name: "Priya (Manager)",
+    category: "work",
+    number: "(647) 555-0133",
+    status: "always-allow",
+    addedOn: "2025-01-30",
+  },
+  {
+    id: "tc-6",
+    name: "GreenLeaf HVAC Service",
+    category: "home-services",
+    number: "(905) 555-0151",
+    status: "temporarily-allow",
+    addedOn: "2025-04-11",
+  },
+  {
+    id: "tc-7",
+    name: "Northgate Parcel Co.",
+    category: "delivery",
+    number: "(647) 555-0188",
+    status: "always-screen",
+    addedOn: "2025-03-19",
+  },
+  {
+    id: "tc-8",
+    name: "Rogers Customer Care (Approved Line)",
+    category: "approved-org",
+    number: "1 (888) 555-0100",
+    status: "always-screen",
+    addedOn: "2025-01-05",
+  },
+];
