@@ -233,4 +233,6 @@ export interface DemoStatus {
   azureOpenAIConfigured: boolean;
   azureSpeechConfigured: boolean;
   message: string;
+  realCallsConfigured?: boolean;
+  twilioValidationConfigured?: boolean;
 }

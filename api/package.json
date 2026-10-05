@@ -11,7 +11,10 @@
     "clean": "rimraf dist"
   },
   "dependencies": {
-    "@azure/functions": "^4.5.1"
+    "@azure/functions": "^4.5.1",
+    "@azure/data-tables": "^13.3.0",
+    "@azure/storage-blob": "^12.26.0",
+    "twilio": "^5.4.0"
   },
   "devDependencies": {
     "typescript": "~5.9.3",

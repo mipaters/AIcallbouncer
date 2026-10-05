@@ -10,6 +10,7 @@ const PRIMARY_NAV = [
 ];
 
 const SECONDARY_NAV = [
+  { to: "/live-calls", label: "Live calls (real)" },
   { to: "/how-it-works", label: "How it works" },
   { to: "/trusted-callers", label: "Trusted callers" },
   { to: "/privacy", label: "Privacy" },

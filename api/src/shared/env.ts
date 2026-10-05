@@ -9,6 +9,9 @@ export interface EnvConfig {
   azureOpenAIDeployment?: string;
   azureSpeechKey?: string;
   azureSpeechRegion?: string;
+  azureStorageConnectionString?: string;
+  twilioAuthToken?: string;
+  publicBaseUrl?: string;
 }
 
 export function readEnv(): EnvConfig {
@@ -18,6 +21,9 @@ export function readEnv(): EnvConfig {
     azureOpenAIDeployment: process.env.AZURE_OPENAI_DEPLOYMENT,
     azureSpeechKey: process.env.AZURE_SPEECH_KEY,
     azureSpeechRegion: process.env.AZURE_SPEECH_REGION,
+    azureStorageConnectionString: process.env.AZURE_STORAGE_CONNECTION_STRING,
+    twilioAuthToken: process.env.TWILIO_AUTH_TOKEN,
+    publicBaseUrl: process.env.PUBLIC_BASE_URL,
   };
 }
 
@@ -27,4 +33,12 @@ export function isAzureOpenAIConfigured(env: EnvConfig = readEnv()): boolean {
 
 export function isAzureSpeechConfigured(env: EnvConfig = readEnv()): boolean {
   return Boolean(env.azureSpeechKey && env.azureSpeechRegion);
+}
+
+export function isCallStorageConfigured(env: EnvConfig = readEnv()): boolean {
+  return Boolean(env.azureStorageConnectionString);
+}
+
+export function isTwilioValidationConfigured(env: EnvConfig = readEnv()): boolean {
+  return Boolean(env.twilioAuthToken && env.publicBaseUrl);
 }

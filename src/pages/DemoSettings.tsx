@@ -24,6 +24,14 @@ export function DemoSettings() {
           <span className="field-label">Azure Speech</span>
           <span className="field-value">{demoStatus.azureSpeechConfigured ? "Configured" : "Not configured"}</span>
         </div>
+        <div className="field-row">
+          <span className="field-label">Real calls (Twilio)</span>
+          <span className="field-value">{demoStatus.realCallsConfigured ? "Configured" : "Not configured"}</span>
+        </div>
+        <div className="field-row">
+          <span className="field-label">Twilio signature validation</span>
+          <span className="field-value">{demoStatus.twilioValidationConfigured ? "Configured" : "Not configured"}</span>
+        </div>
       </div>
       <p className="card-soft">{demoStatus.message}</p>
 
