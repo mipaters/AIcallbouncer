@@ -28,7 +28,7 @@ zero configuration.
 | **Call History / Call Detail** | Session-only history (sessionStorage) with full reasoning trail and "Delete all history" control. |
 | **How It Works / Privacy / Architecture** | Plain-language explainer pages describing data handling and the (illustrative) system architecture. |
 | **Azure Functions API** (`api/`) | Optional backend mirroring the client engine; calls Azure OpenAI/Speech when configured, otherwise returns the same deterministic result. |
-| **Azure Static Web Apps config** | `staticwebapp.config.json` + `.github/workflows/azure-static-web-apps.yml`. |
+| **Azure Static Web Apps config** | `staticwebapp.config.json` + `.github/workflows/azure-static-web-apps-kind-rock-0966aa80f.yml`. |
 
 ---
 
