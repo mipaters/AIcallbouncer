@@ -310,6 +310,12 @@ export function LiveCalls() {
         scripted demo in Canned Demos — these are actual phone calls.
       </p>
 
+      <div className="card" style={{ borderColor: "var(--rogers-red)" }}>
+        <p className="card-soft" style={{ margin: 0 }}>
+          📞 Please dial <strong>+1 365-360-8396</strong> to test AI Concierge.
+        </p>
+      </div>
+
       <ForwardingNumberCard />
       <GreetingCard />
       <ApprovedNumbersCard />
