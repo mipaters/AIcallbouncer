@@ -117,7 +117,7 @@ export function Home() {
             </div>
           </Link>
         ))}
-        {recent.length === 0 && <div className="empty-state">No calls yet. Try the Live Demo.</div>}
+        {recent.length === 0 && <div className="empty-state">No calls yet. Try a Canned Demo.</div>}
       </div>
       <div style={{ textAlign: "right" }}>
         <Link to="/history">

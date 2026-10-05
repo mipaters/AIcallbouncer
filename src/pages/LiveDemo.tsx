@@ -6,11 +6,13 @@ import { CALL_CATEGORY_LABEL, DISPOSITION_LABEL } from "../types";
 import { useDemo } from "../context/DemoContext";
 import { Disclaimer } from "../components/ui/Disclaimer";
 import { RiskBadge } from "../components/ui/Badge";
+import { ArchitectureOverview } from "../components/ui/ArchitectureOverview";
 import { FOLLOW_UP_QUESTIONS, analyzeCallerText } from "../engine/decisionEngine";
 
 type DemoMode = "guided" | "interactive" | "microphone";
+type ExecutivePhase = "intro" | "scenarios" | "architecture";
 
-const EXECUTIVE_SEQUENCE = ["dental-appointment", "delivery-driver", "sales-call", "rogers-impersonation"];
+const EXECUTIVE_SEQUENCE = ["dental-appointment", "rogers-impersonation"];
 
 function useSpeechRecognition() {
   const SpeechRecognitionCtor = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
@@ -32,6 +34,7 @@ export function LiveDemo() {
   const [answering, setAnswering] = useState(false);
   const [executiveQueue, setExecutiveQueue] = useState<string[] | null>(null);
   const [executivePartIndex, setExecutivePartIndex] = useState(0);
+  const [executivePhase, setExecutivePhase] = useState<ExecutivePhase>("intro");
   const [micListening, setMicListening] = useState(false);
   const [micTranscript, setMicTranscript] = useState("");
   const [micResult, setMicResult] = useState<ReturnType<typeof analyzeCallerText> | null>(null);
@@ -109,7 +112,7 @@ export function LiveDemo() {
       durationSeconds: 20 + s.steps.length * 8,
       transcriptAvailable: true,
       messageAvailable: true,
-      subscriberAction: "Handled via Live Demo",
+      subscriberAction: "Handled via Canned Demo",
       transcript: s.steps.flatMap<TranscriptLine>((st) => {
         const lines: TranscriptLine[] = [];
         if (st.callerLine) lines.push({ speaker: "caller", text: st.callerLine });
@@ -128,21 +131,26 @@ export function LiveDemo() {
     if (!executiveQueue) return;
     const nextIndex = executivePartIndex + 1;
     if (nextIndex >= executiveQueue.length) {
-      setExecutiveQueue(null);
-      resetPlayer();
-      navigate("/live-demo");
+      setScenarioId(null);
+      setExecutivePhase("architecture");
       return;
     }
     setExecutivePartIndex(nextIndex);
     startScenario(executiveQueue[nextIndex]);
   }
 
-  useEffect(() => {
-    if (executiveQueue && !scenarioId) {
-      startScenario(executiveQueue[executivePartIndex]);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [executiveQueue]);
+  function finishExecutiveDemo() {
+    setExecutiveQueue(null);
+    setExecutivePhase("intro");
+    resetPlayer();
+    navigate("/live-demo");
+  }
+
+  function beginExecutiveWalkthrough() {
+    setExecutivePhase("scenarios");
+    setExecutivePartIndex(0);
+    startScenario(executiveQueue![0]);
+  }
 
   function startMic() {
     if (!SpeechRecognitionCtor) {
@@ -179,10 +187,69 @@ export function LiveDemo() {
   const currentStep = scenario?.steps[stepIndex];
   const scenarioDone = (scenario && stepIndex >= scenario.steps.length) || finished;
 
+  if (executiveQueue && executivePhase === "intro" && !scenario) {
+    return (
+      <div>
+        <div className="page-title">Executive Overview</div>
+        <p className="page-subtitle">What Concierge AI is, what it does, and why it matters — before the walkthrough.</p>
+
+        <div className="section-title">What it is</div>
+        <div className="card">
+          <p style={{ marginTop: 0 }}>
+            Concierge AI is an AI-powered call-screening assistant that answers unfamiliar calls on a subscriber's
+            behalf — before they ever reach the subscriber's phone, voicemail, or get missed entirely.
+          </p>
+        </div>
+
+        <div className="section-title">What it does</div>
+        <div className="card">
+          <p style={{ marginTop: 0 }}>
+            It greets the caller, finds out who they are and why they're calling, and gauges intent, urgency, and
+            risk — then connects, asks a follow-up question, notifies the subscriber, sends the caller to voicemail,
+            or blocks the call outright, all according to the subscriber's own preferences.
+          </p>
+        </div>
+
+        <div className="section-title">Value for the operator</div>
+        <div className="card">
+          <p style={{ marginTop: 0 }}>
+            A differentiated, premium subscriber service that reduces spam and scam exposure, increases trust and
+            safety, and creates a new average-revenue-per-user opportunity — deployable on top of existing network
+            voice infrastructure rather than replacing it.
+          </p>
+        </div>
+
+        <button className="btn btn-solid btn-block" onClick={beginExecutiveWalkthrough}>
+          Begin walkthrough →
+        </button>
+        <button className="btn btn-outline btn-block" style={{ marginTop: 10 }} onClick={finishExecutiveDemo}>
+          ← Exit executive demo
+        </button>
+      </div>
+    );
+  }
+
+  if (executivePhase === "architecture") {
+    return (
+      <div>
+        <div className="page-title">Solution Architecture</div>
+        <p className="page-subtitle">What you just saw is deployed like this today — here's how a production deployment would differ.</p>
+
+        <ArchitectureOverview />
+
+        <Disclaimer />
+
+        <button className="btn btn-solid btn-block" onClick={finishExecutiveDemo}>
+          Finish Executive Demo
+        </button>
+      </div>
+    );
+  }
+
   if (!scenario) {
     return (
       <div>
-        <div className="page-title">Live Demo</div>
+        <div className="page-title">Canned Demos</div>
         <p className="page-subtitle">Select a demo mode and a scripted scenario to see Concierge AI in action.</p>
 
         <div className="section-title">Demo Mode</div>
@@ -283,7 +350,7 @@ export function LiveDemo() {
             {scenario.callerName} · {scenario.callerNumber} · {scenario.recognized ? "Recognized" : "Unrecognized"}
           </div>
         </div>
-        <button className="menu-button" onClick={executiveQueue ? () => setExecutiveQueue(null) : resetPlayer}>
+        <button className="menu-button" onClick={executiveQueue ? finishExecutiveDemo : resetPlayer}>
           ✕
         </button>
       </div>
@@ -404,7 +471,7 @@ export function LiveDemo() {
 
           {executiveQueue ? (
             <button className="btn btn-solid btn-block" onClick={goNextExecutivePart}>
-              {executivePartIndex + 1 >= executiveQueue.length ? "Finish Executive Demo" : "Next: Executive Demo Part " + (executivePartIndex + 2)}
+              {executivePartIndex + 1 >= executiveQueue.length ? "Next: Architecture Overview" : "Next: Executive Demo Part " + (executivePartIndex + 2)}
             </button>
           ) : (
             <button className="btn btn-outline btn-block" onClick={resetPlayer}>

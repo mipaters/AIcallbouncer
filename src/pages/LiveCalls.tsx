@@ -307,7 +307,7 @@ export function LiveCalls() {
       <div className="page-title">Live Calls</div>
       <p className="page-subtitle">
         Real inbound calls to your connected Twilio number, screened by Concierge AI. This is separate from the
-        scripted demo in Live Demo — these are actual phone calls.
+        scripted demo in Canned Demos — these are actual phone calls.
       </p>
 
       <ForwardingNumberCard />

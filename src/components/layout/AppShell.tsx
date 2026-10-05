@@ -4,7 +4,7 @@ import { useDemo } from "../../context/DemoContext";
 
 const PRIMARY_NAV = [
   { to: "/", label: "Home", icon: "🏠" },
-  { to: "/live-demo", label: "Live Demo", icon: "📞" },
+  { to: "/live-demo", label: "Canned Demos", icon: "📞" },
   { to: "/history", label: "History", icon: "🕑" },
   { to: "/preferences", label: "Preferences", icon: "⚙️" },
 ];
