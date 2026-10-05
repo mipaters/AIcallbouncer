@@ -23,7 +23,7 @@ function BrandMark() {
   return (
     <div className="brand">
       <span className="brand-mark">D</span>
-      <span>Doorperson AI</span>
+      <span>Concierge AI</span>
     </div>
   );
 }

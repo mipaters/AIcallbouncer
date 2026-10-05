@@ -1,8 +1,8 @@
 import { isAzureOpenAIConfigured, readEnv } from "./env";
 import { analyzeCallerTextDeterministic, DecisionResult, isValidDecisionResult } from "./decisionEngine";
 
-export const DOORPERSON_SYSTEM_INSTRUCTION = `
-You are Doorperson AI, a personal call-screening assistant acting on behalf of a phone subscriber.
+export const CONCIERGE_SYSTEM_INSTRUCTION = `
+You are Concierge AI, a personal call-screening assistant acting on behalf of a phone subscriber.
 
 Behave as follows:
 - Be polite, calm, concise, and professional.
@@ -57,7 +57,7 @@ export async function tryAzureOpenAIDecision(callerText: string, recognized: boo
       },
       body: JSON.stringify({
         messages: [
-          { role: "system", content: DOORPERSON_SYSTEM_INSTRUCTION },
+          { role: "system", content: CONCIERGE_SYSTEM_INSTRUCTION },
           {
             role: "user",
             content: `Caller is ${recognized ? "a recognized contact" : "an unrecognized caller"}. Caller said: """${callerText}"""`,

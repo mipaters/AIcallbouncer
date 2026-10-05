@@ -2,7 +2,7 @@ import { app, HttpRequest, HttpResponseInit, InvocationContext } from "@azure/fu
 import { parseTwilioFormBody, speak, twiml, validateTwilioRequest } from "../shared/twilioHelpers";
 import { getCall, maskPhoneNumber, saveCall, type LiveCallRecord } from "../shared/callStore";
 
-const GREETING = "Hello, you've reached Doorperson AI, screening calls on behalf of the subscriber. Who's calling, and what is this regarding?";
+const GREETING = "Hello, you've reached Concierge AI, screening calls on behalf of the subscriber. Who's calling, and what is this regarding?";
 
 /**
  * Twilio Voice webhook: the entry point configured on your Twilio phone

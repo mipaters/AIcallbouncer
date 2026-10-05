@@ -17,7 +17,7 @@ const FUTURE_INTEGRATION = [
   "Caller identification and reputation signals — Requires Rogers integration",
   "Customer-authorized trusted caller list — Requires privacy and regulatory review",
   "Call media or transcription integration — Requires Rogers integration",
-  "Doorperson AI conversation service — Future concept",
+  "Concierge AI conversation service — Future concept",
   "Subscriber preference engine — Future concept",
   "Call-routing decision — Requires Rogers integration",
   "Network call disposition — Requires Rogers integration",

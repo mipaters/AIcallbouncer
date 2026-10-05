@@ -17,7 +17,7 @@ export function Home() {
     <div>
       <div className="hero">
         <h1>Your calls. Your time. Your rules.</h1>
-        <p>Doorperson AI answers unfamiliar callers, finds out what they need, and only puts through the calls that matter.</p>
+        <p>Concierge AI answers unfamiliar callers, finds out what they need, and only puts through the calls that matter.</p>
         <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
           <Link to="/live-demo" className="btn btn-primary">
             Simulate an incoming call
@@ -48,10 +48,10 @@ export function Home() {
         {QUICK_MODE_DESCRIPTION[preferences.quickMode]}
       </p>
 
-      <div className="section-title">Doorperson Status</div>
+      <div className="section-title">Concierge Status</div>
       <div className="card">
         <div className="field-row">
-          <span className="field-label">Doorperson AI</span>
+          <span className="field-label">Concierge AI</span>
           <span className="field-value">Active</span>
         </div>
         <div className="field-row">

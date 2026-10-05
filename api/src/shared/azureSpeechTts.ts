@@ -30,7 +30,7 @@ export async function synthesizeSpeechToMp3(text: string): Promise<Buffer | null
         "Ocp-Apim-Subscription-Key": env.azureSpeechKey as string,
         "Content-Type": "application/ssml+xml",
         "X-Microsoft-OutputFormat": "audio-16khz-32kbitrate-mono-mp3",
-        "User-Agent": "doorperson-ai-demo",
+        "User-Agent": "concierge-ai-demo",
       },
       body: ssml,
     });

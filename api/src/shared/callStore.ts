@@ -2,8 +2,8 @@ import { TableClient } from "@azure/data-tables";
 import { isCallStorageConfigured, readEnv } from "./env";
 import type { DecisionResult } from "./decisionEngine";
 
-const CALLS_TABLE = "DoorpersonCalls";
-const SETTINGS_TABLE = "DoorpersonSettings";
+const CALLS_TABLE = "ConciergeCalls";
+const SETTINGS_TABLE = "ConciergeSettings";
 const CALLS_PARTITION = "call";
 const SETTINGS_PARTITION = "settings";
 const FORWARDING_NUMBER_ROW = "forwardingNumber";

@@ -24,7 +24,7 @@ export async function startScreening(request: HttpRequest, context: InvocationCo
       greeting,
       recognized,
       callerNumberMasked,
-      message: recognized ? "Recognized caller — screening may be skipped per preferences." : "Doorperson AI is answering for you.",
+      message: recognized ? "Recognized caller — screening may be skipped per preferences." : "Concierge AI is answering for you.",
     }, correlationId);
   } catch (err) {
     context.error("startScreening failed", { correlationId, errorType: err instanceof ValidationError ? "validation" : "unexpected" });

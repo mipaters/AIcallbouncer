@@ -102,7 +102,7 @@ function ForwardingNumberCard() {
     <div className="card">
       <div className="section-title" style={{ marginTop: 0 }}>Real call forwarding number</div>
       <p className="card-soft">
-        When Doorperson AI decides to <strong>Connect</strong> a real call, it dials this number. Use your own phone
+        When Concierge AI decides to <strong>Connect</strong> a real call, it dials this number. Use your own phone
         in E.164 format (e.g. +12895551234) so you actually receive connected calls.
       </p>
       {!configured && (
@@ -157,7 +157,7 @@ export function LiveCalls() {
     <div>
       <div className="page-title">Live Calls</div>
       <p className="page-subtitle">
-        Real inbound calls to your connected Twilio number, screened by Doorperson AI. This is separate from the
+        Real inbound calls to your connected Twilio number, screened by Concierge AI. This is separate from the
         scripted demo in Live Demo — these are actual phone calls.
       </p>
 
@@ -210,9 +210,9 @@ export function LiveCalls() {
               </div>
               <div className="transcript">
                 {selected.transcript.map((line, idx) => (
-                  <div key={idx} className={`transcript-line ${line.speaker === "ai" ? "doorperson" : "caller"}`}>
+                  <div key={idx} className={`transcript-line ${line.speaker === "ai" ? "concierge" : "caller"}`}>
                     <div className="transcript-bubble">
-                      <strong>{line.speaker === "ai" ? "Doorperson AI" : "Caller"}:</strong> {line.text}
+                      <strong>{line.speaker === "ai" ? "Concierge AI" : "Caller"}:</strong> {line.text}
                     </div>
                   </div>
                 ))}
@@ -239,7 +239,7 @@ export function LiveCalls() {
       )}
 
       <p className="card-soft" style={{ marginTop: 16 }}>
-        Doorperson AI status: {demoStatus.message}
+        Concierge AI status: {demoStatus.message}
       </p>
       <Disclaimer text="Real calls are handled by your own Twilio number and Azure resources. No call audio or transcripts are shared with Rogers or any third party by this demo." />
     </div>

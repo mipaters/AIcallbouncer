@@ -30,7 +30,7 @@ export async function getDemoStatus(): Promise<DemoStatus> {
       azureOpenAIConfigured: false,
       azureSpeechConfigured: false,
       message:
-        "Running in Simulation Mode. The API or Azure AI services are unavailable, so Doorperson AI is using scripted, deterministic responses.",
+        "Running in Simulation Mode. The API or Azure AI services are unavailable, so Concierge AI is using scripted, deterministic responses.",
     };
     cachedStatus = fallback;
     return fallback;

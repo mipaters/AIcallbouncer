@@ -16,12 +16,12 @@ export const INITIAL_CALL_HISTORY: CallHistoryEntry[] = [
     messageAvailable: true,
     subscriberAction: "Confirmed without connecting",
     transcript: [
-      { speaker: "doorperson", text: "Hello. You've reached Mike's personal call assistant. May I ask who is calling and what this is regarding?" },
+      { speaker: "concierge", text: "Hello. You've reached Mike's personal call assistant. May I ask who is calling and what this is regarding?" },
       { speaker: "caller", text: "Hi, this is Sarah from Lakeside Dental. I'm calling to confirm Mike's appointment tomorrow at 2:30." },
-      { speaker: "doorperson", text: "Thank you, Sarah. Is any action required from Mike today?" },
+      { speaker: "concierge", text: "Thank you, Sarah. Is any action required from Mike today?" },
       { speaker: "caller", text: "We just need confirmation that he will attend." },
       { speaker: "system", text: "Recommendation: Ask Mike." },
-      { speaker: "doorperson", text: "Mike has confirmed the appointment. Thank you for calling." },
+      { speaker: "concierge", text: "Mike has confirmed the appointment. Thank you for calling." },
     ],
     decisionExplanation: "Routine appointment confirmation from an unrecognized number.",
     questionsAsked: ["Is any action required from Mike today?"],
@@ -43,7 +43,7 @@ export const INITIAL_CALL_HISTORY: CallHistoryEntry[] = [
     subscriberAction: "No action required",
     transcript: [
       { speaker: "caller", text: "Hi, we are offering homeowners a free assessment and would like to book a visit." },
-      { speaker: "doorperson", text: "Thank you. Mike is not accepting unsolicited sales calls. Please remove this number from your calling list." },
+      { speaker: "concierge", text: "Thank you. Mike is not accepting unsolicited sales calls. Please remove this number from your calling list." },
       { speaker: "system", text: "Decision: Politely declined." },
     ],
     decisionExplanation: "Matches the subscriber's automatic-decline preference for sales calls.",
@@ -66,7 +66,7 @@ export const INITIAL_CALL_HISTORY: CallHistoryEntry[] = [
     subscriberAction: "Viewed notification",
     transcript: [
       { speaker: "caller", text: "I have a delivery for Mike, but I need help finding the entrance." },
-      { speaker: "doorperson", text: "Thank you for letting me know. I can share general delivery instructions, but I'm not able to confirm whether anyone is home right now." },
+      { speaker: "concierge", text: "Thank you for letting me know. I can share general delivery instructions, but I'm not able to confirm whether anyone is home right now." },
       { speaker: "system", text: "Decision: Notify Mike." },
     ],
     decisionExplanation: "Routine delivery request handled with a silent notification.",
@@ -89,7 +89,7 @@ export const INITIAL_CALL_HISTORY: CallHistoryEntry[] = [
     subscriberAction: "Reviewed transcript, kept number blocked",
     transcript: [
       { speaker: "caller", text: "This is an urgent notice. You owe back taxes and must pay immediately to avoid legal action." },
-      { speaker: "doorperson", text: "I cannot assist with payment requests or demands for personal information. This call will now end." },
+      { speaker: "concierge", text: "I cannot assist with payment requests or demands for personal information. This call will now end." },
       { speaker: "system", text: "Call blocked. Subscriber alerted." },
     ],
     decisionExplanation: "Urgent payment demand with threats — high-risk impersonation signals.",
@@ -134,7 +134,7 @@ export const INITIAL_CALL_HISTORY: CallHistoryEntry[] = [
     subscriberAction: "Listened to voicemail",
     transcript: [
       { speaker: "caller", text: "Hi, it's your neighbour from down the street calling from a new number — wanted to ask about borrowing a ladder." },
-      { speaker: "doorperson", text: "Mike isn't available right now. You're welcome to leave a voicemail." },
+      { speaker: "concierge", text: "Mike isn't available right now. You're welcome to leave a voicemail." },
       { speaker: "system", text: "Decision: Send to voicemail." },
     ],
     decisionExplanation: "Low-priority personal request from an unrecognized number during a busy period.",

@@ -79,7 +79,7 @@ export function LiveDemo() {
     if (chosenCallerLine ?? step.callerLine) {
       next.push({ speaker: "caller", text: chosenCallerLine ?? step.callerLine! });
     }
-    if (step.doorpersonLine) next.push({ speaker: "doorperson", text: step.doorpersonLine });
+    if (step.conciergeLine) next.push({ speaker: "concierge", text: step.conciergeLine });
     if (step.systemNote) next.push({ speaker: "system", text: step.systemNote });
     setTranscript(next);
     if (step.understanding) setUnderstanding((prev) => ({ ...prev, ...step.understanding }));
@@ -113,12 +113,12 @@ export function LiveDemo() {
       transcript: s.steps.flatMap<TranscriptLine>((st) => {
         const lines: TranscriptLine[] = [];
         if (st.callerLine) lines.push({ speaker: "caller", text: st.callerLine });
-        if (st.doorpersonLine) lines.push({ speaker: "doorperson", text: st.doorpersonLine });
+        if (st.conciergeLine) lines.push({ speaker: "concierge", text: st.conciergeLine });
         if (st.systemNote) lines.push({ speaker: "system", text: st.systemNote });
         return lines;
       }),
       decisionExplanation: s.decisionExplanation,
-      questionsAsked: s.steps.filter((st) => st.doorpersonLine?.includes("?")).map((st) => st.doorpersonLine!),
+      questionsAsked: s.steps.filter((st) => st.conciergeLine?.includes("?")).map((st) => st.conciergeLine!),
       signalsDetected: s.steps.flatMap((st) => st.riskSignals ?? []),
     };
     addCallHistoryEntry(entry);
@@ -183,7 +183,7 @@ export function LiveDemo() {
     return (
       <div>
         <div className="page-title">Live Demo</div>
-        <p className="page-subtitle">Select a demo mode and a scripted scenario to see Doorperson AI in action.</p>
+        <p className="page-subtitle">Select a demo mode and a scripted scenario to see Concierge AI in action.</p>
 
         <div className="section-title">Demo Mode</div>
         <div className="pill-select" style={{ marginBottom: 18 }}>
@@ -267,7 +267,7 @@ export function LiveDemo() {
         <div className="call-meta">{scenario.callerNumber}</div>
         <div className="call-meta">{scenario.recognized ? "Recognized" : "Unrecognized number"}</div>
         {scenario.approximateLocation && <div className="call-meta">{scenario.approximateLocation}</div>}
-        <p style={{ marginTop: 24, fontWeight: 700 }}>Doorperson AI is answering for you</p>
+        <p style={{ marginTop: 24, fontWeight: 700 }}>Concierge AI is answering for you</p>
       </div>
     );
   }
@@ -379,8 +379,8 @@ export function LiveDemo() {
               <span className="field-value">{scenario.presenterNotes.callerWants}</span>
             </div>
             <div className="field-row">
-              <span className="field-label">Doorperson asks</span>
-              <span className="field-value">{scenario.presenterNotes.doorpersonAsks}</span>
+              <span className="field-label">Concierge asks</span>
+              <span className="field-value">{scenario.presenterNotes.conciergeAsks}</span>
             </div>
             <div className="field-row">
               <span className="field-label">Relevant preferences</span>

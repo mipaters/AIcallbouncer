@@ -386,7 +386,7 @@ a {
   line-height: 1.4;
 }
 
-.transcript-line.doorperson {
+.transcript-line.concierge {
   justify-content: flex-start;
 }
 
@@ -398,7 +398,7 @@ a {
   justify-content: center;
 }
 
-.transcript-line.doorperson .transcript-bubble {
+.transcript-line.concierge .transcript-bubble {
   background: var(--grey-100);
   border-bottom-left-radius: 4px;
 }

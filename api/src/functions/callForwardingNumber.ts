@@ -7,7 +7,7 @@ import { getForwardingNumber, setForwardingNumber } from "../shared/callStore";
 const E164_PATTERN = /^\+[1-9]\d{6,14}$/;
 
 /**
- * GET/PUT the real phone number Doorperson AI dials when a live call is
+ * GET/PUT the real phone number Concierge AI dials when a live call is
  * recommended for "Connect". Configured from the Demo Settings page rather
  * than as a Function App setting, since the spec calls for this to be
  * something the presenter can set directly in the demo.

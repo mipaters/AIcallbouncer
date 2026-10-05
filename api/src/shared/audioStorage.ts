@@ -7,7 +7,7 @@ import {
 } from "@azure/storage-blob";
 import { isCallStorageConfigured, readEnv } from "./env";
 
-const AUDIO_CONTAINER = "doorperson-tts-audio";
+const AUDIO_CONTAINER = "concierge-tts-audio";
 const SAS_VALID_MINUTES = 60;
 
 function parseAccountCredentialsFromConnectionString(connectionString: string): { accountName: string; accountKey: string } | null {

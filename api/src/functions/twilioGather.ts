@@ -10,7 +10,7 @@ const NO_FORWARDING_NUMBER_MESSAGE =
  * Twilio webhook invoked after each <Gather input="speech"> completes.
  * Twilio has already transcribed the caller's speech (SpeechResult) using
  * its own speech recognition; this function runs that text through the
- * Doorperson AI decision engine (Azure OpenAI if configured, deterministic
+ * Concierge AI decision engine (Azure OpenAI if configured, deterministic
  * fallback otherwise) and branches the call accordingly.
  */
 export async function twilioGather(request: HttpRequest, context: InvocationContext): Promise<HttpResponseInit> {

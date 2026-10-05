@@ -1,8 +1,8 @@
 {
-  "name": "doorperson-ai-api",
+  "name": "concierge-ai-api",
   "version": "1.0.0",
   "private": true,
-  "description": "Azure Functions backend for the Rogers Doorperson AI demo (synthetic, illustrative only).",
+  "description": "Azure Functions backend for the Rogers Concierge AI demo (synthetic, illustrative only).",
   "main": "dist/src/functions/*.js",
   "scripts": {
     "build": "tsc -p .",

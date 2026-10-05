@@ -1,4 +1,4 @@
-// Shared domain types for the Rogers Doorperson AI demo.
+// Shared domain types for the Rogers Concierge AI demo.
 // All data modeled here is synthetic and used only for illustrative purposes.
 
 export type Disposition =
@@ -78,7 +78,7 @@ export type QuickMode =
   | "maximum-protection";
 
 export interface TranscriptLine {
-  speaker: "doorperson" | "caller" | "system";
+  speaker: "concierge" | "caller" | "system";
   text: string;
 }
 
@@ -96,7 +96,7 @@ export interface LiveUnderstanding {
 
 export interface ScenarioStep {
   callerLine?: string;
-  doorpersonLine?: string;
+  conciergeLine?: string;
   systemNote?: string;
   understanding?: Partial<LiveUnderstanding>;
   riskSignals?: string[];
@@ -119,7 +119,7 @@ export interface Scenario {
   subscriberNotification: string;
   presenterNotes: {
     callerWants: string;
-    doorpersonAsks: string;
+    conciergeAsks: string;
     relevantPreferences: string;
     whyThisOutcome: string;
     whatIsSimulated: string;

@@ -1,6 +1,6 @@
 {
-  "name": "Rogers Doorperson AI",
-  "short_name": "Doorperson AI",
+  "name": "Rogers Concierge AI",
+  "short_name": "Concierge AI",
   "description": "An illustrative concept demonstration of a personal AI call gatekeeper. Synthetic data only.",
   "start_url": "/",
   "display": "standalone",

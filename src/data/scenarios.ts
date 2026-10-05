@@ -32,7 +32,7 @@ export const SCENARIOS: Scenario[] = [
         },
       },
       {
-        doorpersonLine: "Thank you, Sarah. Is any action required from Mike today?",
+        conciergeLine: "Thank you, Sarah. Is any action required from Mike today?",
       },
       {
         callerLine: "We just need confirmation that he will attend.",
@@ -45,10 +45,10 @@ export const SCENARIOS: Scenario[] = [
     ],
     presenterNotes: {
       callerWants: "A quick confirmation that Mike will attend tomorrow's appointment.",
-      doorpersonAsks: "Whether any action is required from Mike today.",
+      conciergeAsks: "Whether any action is required from Mike today.",
       relevantPreferences: "Appointments are set to 'Notify Me', but the ask flow is shown here to demonstrate subscriber control.",
       whyThisOutcome:
-        "Routine, low-risk purpose from an unrecognized number — Doorperson AI asks Mike rather than connecting or declining automatically.",
+        "Routine, low-risk purpose from an unrecognized number — Concierge AI asks Mike rather than connecting or declining automatically.",
       whatIsSimulated: "The appointment, dental office, and confirmation action are all synthetic.",
       whatRequiresProduction: "Real caller ID reputation and an authorized calendar integration.",
     },
@@ -84,7 +84,7 @@ export const SCENARIOS: Scenario[] = [
     ],
     presenterNotes: {
       callerWants: "To reach Mike about a non-emergency matter involving his child.",
-      doorpersonAsks: "Nothing further — priority categories skip extra questioning.",
+      conciergeAsks: "Nothing further — priority categories skip extra questioning.",
       relevantPreferences: "Schools are set to 'Ask Me' with high-priority handling.",
       whyThisOutcome: "Family/school calls are treated as high priority and routed to Mike immediately for a decision.",
       whatIsSimulated: "The school name and child reference are synthetic; no real student data is used.",
@@ -101,7 +101,7 @@ export const SCENARIOS: Scenario[] = [
     category: "delivery",
     finalDisposition: "notify",
     decisionExplanation:
-      "A delivery driver needs help locating the entrance. Doorperson AI does not disclose whether Mike is home and offers safe, generic delivery guidance.",
+      "A delivery driver needs help locating the entrance. Concierge AI does not disclose whether Mike is home and offers safe, generic delivery guidance.",
     subscriberNotification: "Delivery driver needs help locating the entrance.",
     steps: [
       {
@@ -115,13 +115,13 @@ export const SCENARIOS: Scenario[] = [
         },
       },
       {
-        doorpersonLine:
+        conciergeLine:
           "Thank you for letting me know. I can share general delivery instructions, but I'm not able to confirm whether anyone is home right now.",
       },
     ],
     presenterNotes: {
       callerWants: "Directions to the entrance to complete a delivery.",
-      doorpersonAsks: "Nothing further — Doorperson AI offers safe generic guidance.",
+      conciergeAsks: "Nothing further — Concierge AI offers safe generic guidance.",
       relevantPreferences: "Deliveries are set to 'Notify Me' so Mike is not interrupted.",
       whyThisOutcome: "Low-risk, routine request handled with a silent notification instead of an interruption.",
       whatIsSimulated: "The delivery address, access instructions, and driver identity are synthetic.",
@@ -151,13 +151,13 @@ export const SCENARIOS: Scenario[] = [
         },
       },
       {
-        doorpersonLine:
+        conciergeLine:
           "Thank you. Mike is not accepting unsolicited sales calls. Please remove this number from your calling list.",
       },
     ],
     presenterNotes: {
       callerWants: "To book an unsolicited sales visit.",
-      doorpersonAsks: "Nothing further — sales calls are declined per preference.",
+      conciergeAsks: "Nothing further — sales calls are declined per preference.",
       relevantPreferences: "Sales calls are set to 'Automatically Decline'.",
       whyThisOutcome: "Matches the subscriber's preference to automatically decline unsolicited sales calls.",
       whatIsSimulated: "The caller, company, and offer are synthetic.",
@@ -181,7 +181,7 @@ export const SCENARIOS: Scenario[] = [
         understanding: { callCategory: "unknown", urgency: "low", identityConfidence: "low" },
       },
       {
-        doorpersonLine: "Before I can connect the call, I need your name and a brief reason for calling.",
+        conciergeLine: "Before I can connect the call, I need your name and a brief reason for calling.",
       },
       {
         callerLine: "It's personal. I'd rather not say.",
@@ -189,12 +189,12 @@ export const SCENARIOS: Scenario[] = [
         riskSignals: ["Caller refuses reasonable identification questions"],
       },
       {
-        doorpersonLine: "I'm unable to connect the call without that information. You may leave a voicemail if you wish.",
+        conciergeLine: "I'm unable to connect the call without that information. You may leave a voicemail if you wish.",
       },
     ],
     presenterNotes: {
       callerWants: "To speak to Mike without identifying themselves.",
-      doorpersonAsks: "Name and reason for calling, twice.",
+      conciergeAsks: "Name and reason for calling, twice.",
       relevantPreferences: "Unknown callers are set to 'Ask Me', but identity refusal routes to voicemail instead.",
       whyThisOutcome: "Refusing reasonable identification questions is treated as a mild risk signal and routed to voicemail.",
       whatIsSimulated: "The caller and refusal dialogue are scripted for demonstration.",
@@ -211,9 +211,9 @@ export const SCENARIOS: Scenario[] = [
     category: "suspicious",
     finalDisposition: "block",
     decisionExplanation:
-      "A caller claiming to represent Rogers requested a verification code and threatened immediate account suspension. Doorperson AI ended the call.",
+      "A caller claiming to represent Rogers requested a verification code and threatened immediate account suspension. Concierge AI ended the call.",
     subscriberNotification:
-      "Potential scam call blocked. A caller claiming to represent Rogers requested a verification code and threatened immediate account suspension. Doorperson AI ended the call.",
+      "Potential scam call blocked. A caller claiming to represent Rogers requested a verification code and threatened immediate account suspension. Concierge AI ended the call.",
     steps: [
       {
         callerLine: "This is Rogers Security. Your account is about to be suspended. I need your verification code immediately.",
@@ -235,13 +235,13 @@ export const SCENARIOS: Scenario[] = [
         ],
       },
       {
-        doorpersonLine: "I cannot assist with requests for passwords, PINs, or verification codes. This call will now end.",
+        conciergeLine: "I cannot assist with requests for passwords, PINs, or verification codes. This call will now end.",
         systemNote: "Call ended and blocked. Subscriber alerted.",
       },
     ],
     presenterNotes: {
       callerWants: "To extract a verification code using urgency and impersonation.",
-      doorpersonAsks: "Nothing — the request for a verification code immediately ends the call.",
+      conciergeAsks: "Nothing — the request for a verification code immediately ends the call.",
       relevantPreferences: "Suspicious calls are set to 'Block and Alert'.",
       whyThisOutcome: "Multiple high-risk signals (urgency, credential request, unverified identity) trigger immediate termination.",
       whatIsSimulated: "The impersonation script and phone number are synthetic.",
@@ -258,7 +258,7 @@ export const SCENARIOS: Scenario[] = [
     category: "suspicious",
     finalDisposition: "block",
     decisionExplanation:
-      "The caller used urgency, secrecy, and a payment request involving a vague family emergency. Doorperson AI ended the call and recommended independent verification.",
+      "The caller used urgency, secrecy, and a payment request involving a vague family emergency. Concierge AI ended the call and recommended independent verification.",
     subscriberNotification:
       "A caller described a family emergency requiring an immediate money transfer and asked for secrecy. Contact the family member using a known number before taking any action.",
     steps: [
@@ -282,14 +282,14 @@ export const SCENARIOS: Scenario[] = [
         ],
       },
       {
-        doorpersonLine:
+        conciergeLine:
           "I cannot assist with payment requests or provide personal information. Mike will be advised to verify this independently.",
         systemNote: "Call ended and blocked. Subscriber alerted with independent-verification guidance.",
       },
     ],
     presenterNotes: {
       callerWants: "To pressure a payment using emotional manipulation and urgency.",
-      doorpersonAsks: "Nothing — family names and relationships are never confirmed to an unverified caller.",
+      conciergeAsks: "Nothing — family names and relationships are never confirmed to an unverified caller.",
       relevantPreferences: "Suspicious calls are set to 'Block and Alert'.",
       whyThisOutcome: "Emotional manipulation plus a payment request and secrecy request are strong combined risk signals.",
       whatIsSimulated: "No real family member or payment details are referenced or exposed.",
@@ -326,9 +326,9 @@ export const SCENARIOS: Scenario[] = [
     ],
     presenterNotes: {
       callerWants: "A normal conversation with Mike.",
-      doorpersonAsks: "Nothing — recognized family members are never screened.",
+      conciergeAsks: "Nothing — recognized family members are never screened.",
       relevantPreferences: "'Always allow favourites' and the Family call-type rule are both set to connect.",
-      whyThisOutcome: "Recognized, trusted contact; Doorperson AI stays out of the way entirely.",
+      whyThisOutcome: "Recognized, trusted contact; Concierge AI stays out of the way entirely.",
       whatIsSimulated: "The contact and relationship are synthetic.",
       whatRequiresProduction: "Access to a real, permissioned contacts list.",
     },
@@ -360,12 +360,12 @@ export const SCENARIOS: Scenario[] = [
         },
       },
       {
-        doorpersonLine: "Thank you. I'll let Mike know right away so he can decide how he'd like to proceed.",
+        conciergeLine: "Thank you. I'll let Mike know right away so he can decide how he'd like to proceed.",
       },
     ],
     presenterNotes: {
       callerWants: "To discuss test results directly with Mike.",
-      doorpersonAsks: "Nothing further — healthcare matters are not probed for medical detail.",
+      conciergeAsks: "Nothing further — healthcare matters are not probed for medical detail.",
       relevantPreferences: "Healthcare is set to 'Ask Me' to respect sensitivity and give Mike control.",
       whyThisOutcome: "Medically sensitive topics are routed to the subscriber rather than summarized by the assistant.",
       whatIsSimulated: "The clinic and test-result reference are synthetic; no real medical data is used.",
@@ -395,12 +395,12 @@ export const SCENARIOS: Scenario[] = [
         },
       },
       {
-        doorpersonLine: "Thank you, but Mike is not participating in unsolicited surveys at this time.",
+        conciergeLine: "Thank you, but Mike is not participating in unsolicited surveys at this time.",
       },
     ],
     presenterNotes: {
       callerWants: "A few minutes of Mike's time for a survey.",
-      doorpersonAsks: "Nothing further — surveys are declined per preference.",
+      conciergeAsks: "Nothing further — surveys are declined per preference.",
       relevantPreferences: "Surveys are set to 'Automatically Decline'.",
       whyThisOutcome: "Low-value, unsolicited request matching an automatic-decline preference.",
       whatIsSimulated: "The survey topic and caller are synthetic.",

@@ -13,10 +13,10 @@ export async function demoStatus(_request: HttpRequest, _context: InvocationCont
 
   const message =
     mode === "connected"
-      ? "Azure OpenAI and Azure Speech are configured. Doorperson AI is running in Connected Mode."
+      ? "Azure OpenAI and Azure Speech are configured. Concierge AI is running in Connected Mode."
       : mode === "partial"
-        ? "Some Azure AI services are configured. Doorperson AI is running in Partial Mode — unconfigured capabilities fall back to simulation."
-        : "Azure AI services are not configured. Doorperson AI is running in Simulation Mode with deterministic, scripted responses.";
+        ? "Some Azure AI services are configured. Concierge AI is running in Partial Mode — unconfigured capabilities fall back to simulation."
+        : "Azure AI services are not configured. Concierge AI is running in Simulation Mode with deterministic, scripted responses.";
 
   return jsonResponse(200, {
     mode,

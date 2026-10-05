@@ -4,12 +4,12 @@ import { jsonResponse, errorResponse } from "../shared/http";
 import { newCorrelationId, validateBoolean, validateText, ValidationError } from "../shared/validation";
 
 /**
- * Generates the next Doorperson AI reply. In Connected Mode this is derived
+ * Generates the next Concierge AI reply. In Connected Mode this is derived
  * from the Azure OpenAI structured decision; in Simulation Mode it falls
  * back to a deterministic, explainable reply built from the same decision
  * fields.
  */
-export async function generateDoorpersonResponse(request: HttpRequest, context: InvocationContext): Promise<HttpResponseInit> {
+export async function generateConciergeResponse(request: HttpRequest, context: InvocationContext): Promise<HttpResponseInit> {
   const correlationId = newCorrelationId();
   try {
     const body = (await request.json().catch(() => ({}))) as Record<string, unknown>;
@@ -31,14 +31,14 @@ export async function generateDoorpersonResponse(request: HttpRequest, context: 
 
     return jsonResponse(200, { reply, decision }, correlationId);
   } catch (err) {
-    context.error("generateDoorpersonResponse failed", { correlationId, errorType: err instanceof ValidationError ? "validation" : "unexpected" });
+    context.error("generateConciergeResponse failed", { correlationId, errorType: err instanceof ValidationError ? "validation" : "unexpected" });
     return errorResponse(err, correlationId);
   }
 }
 
-app.http("generateDoorpersonResponse", {
+app.http("generateConciergeResponse", {
   methods: ["POST"],
   authLevel: "anonymous",
-  route: "generate-doorperson-response",
-  handler: generateDoorpersonResponse,
+  route: "generate-concierge-response",
+  handler: generateConciergeResponse,
 });

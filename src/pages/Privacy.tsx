@@ -1,7 +1,7 @@
 import { useDemo } from "../context/DemoContext";
 
 const PRIVACY_POINTS = [
-  "Doorperson AI identifies itself as an AI assistant.",
+  "Concierge AI identifies itself as an AI assistant.",
   "The subscriber opts into the service.",
   "The subscriber controls screening preferences.",
   "Microphone usage requires explicit permission.",
@@ -36,7 +36,7 @@ export function Privacy() {
       <div className="alert-banner">
         <div className="alert-title">Responsible Demo Statement</div>
         <p style={{ margin: "6px 0 0" }}>
-          Rogers Doorperson AI is an illustrative concept demonstration using synthetic callers, contacts,
+          Rogers Concierge AI is an illustrative concept demonstration using synthetic callers, contacts,
           conversations, preferences, and call decisions. It is not connected to Rogers customer, network, voicemail,
           billing, security, or telecommunications systems. The demonstration cannot intercept, answer, route, block,
           or transfer real phone calls. AI-generated summaries and risk assessments may be incomplete or incorrect.

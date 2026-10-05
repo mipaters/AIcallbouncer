@@ -1,4 +1,4 @@
-const STORAGE_PREFIX = "doorperson-ai-demo:";
+const STORAGE_PREFIX = "concierge-ai-demo:";
 
 export function loadSession<T>(key: string, fallback: T): T {
   try {

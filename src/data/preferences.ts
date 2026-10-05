@@ -53,8 +53,8 @@ export const QUICK_MODE_LABEL: Record<PreferencesState["quickMode"], string> = {
 
 export const QUICK_MODE_DESCRIPTION: Record<PreferencesState["quickMode"], string> = {
   available: "Important calls can be presented immediately.",
-  focus: "Doorperson AI screens unfamiliar calls and only interrupts for priority callers.",
-  quiet: "Doorperson AI handles calls silently and sends summaries.",
+  focus: "Concierge AI screens unfamiliar calls and only interrupts for priority callers.",
+  quiet: "Concierge AI handles calls silently and sends summaries.",
   "family-priority":
     "Calls involving family, school, healthcare, or emergencies receive priority.",
   "maximum-protection":

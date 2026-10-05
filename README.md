@@ -1,4 +1,4 @@
-# Rogers Doorperson AI — Executive Demo
+# Rogers Concierge AI — Executive Demo
 
 > **⚠️ Synthetic, illustrative demo only.** All call scenarios, caller names, phone
 > numbers, and transcripts in this project are fictional and created for a product
@@ -6,7 +6,7 @@
 > personal data, or connects to telephony infrastructure. No real Rogers product,
 > customer data, or call data is used anywhere in this app.
 
-A mobile-first React + TypeScript single-page app that simulates "Doorperson AI" —
+A mobile-first React + TypeScript single-page app that simulates "Concierge AI" —
 an AI assistant that screens incoming calls on a subscriber's behalf, explains its
 reasoning, and routes callers to **Connect**, **Ask the subscriber**, **Take a
 message**, **Voicemail**, **Decline**, or **Hang up (abuse/scam)**. It is built as
@@ -92,7 +92,7 @@ The app never requires Azure credentials to function. Three states exist:
   explicitly configure Azure.
 - **Connected Mode**: `AZURE_OPENAI_ENDPOINT`, `AZURE_OPENAI_API_KEY`, and
   `AZURE_OPENAI_DEPLOYMENT` are all set on the Function App. `POST
-  /api/process-caller-response`, `/api/generate-doorperson-response`, and
+  /api/process-caller-response`, `/api/generate-concierge-response`, and
   `/api/parse-preferences` will call Azure OpenAI with an 8-second timeout and
   validate the shape of the response; any failure (timeout, malformed JSON,
   network error) silently falls back to the deterministic engine so the demo
@@ -140,7 +140,7 @@ Twilio number you control, using the same decision engine:
    `POST https://<your-site>/api/twilio/status`.
 4. Open the **Live Calls** page in the app and enter your own phone number
    (E.164 format, e.g. `+12895551234`) as the forwarding number — this is the
-   number Doorperson AI dials when it decides to connect a call through to
+   number Concierge AI dials when it decides to connect a call through to
    you.
 5. Call your Twilio number. The **Live Calls** page polls `GET
    /api/live-calls` every ~2 seconds and shows the live transcript and the
@@ -150,7 +150,7 @@ How it works end to end: Twilio posts the caller's speech-to-text result to
 `/api/twilio/gather`, which runs the same `decisionEngine`/Azure OpenAI logic
 used by the simulated demo, then returns TwiML that either `<Dial>`s your
 forwarding number, asks a clarifying follow-up, politely declines, or records
-and transcribes a voicemail. Doorperson AI's spoken responses use Azure Speech
+and transcribes a voicemail. Concierge AI's spoken responses use Azure Speech
 neural TTS (falling back to Twilio's built-in voice if Azure Speech isn't
 configured); synthesized audio is stored as a short-lived (60-minute) Blob SAS
 URL for Twilio's `<Play>` verb to fetch.
@@ -194,11 +194,11 @@ If you need to (re)link a repo manually instead:
 2. **Part 1 — Everyday convenience (Dental appointment)**: a known, low-risk
    caller is recognized and connected without interruption.
 3. **Part 2 — Protecting attention (Delivery driver)**: a legitimate but
-   low-priority caller is handled by Doorperson AI without disturbing the
+   low-priority caller is handled by Concierge AI without disturbing the
    subscriber.
-4. **Part 3 — Saying no, politely (Sales call)**: Doorperson AI declines a cold
+4. **Part 3 — Saying no, politely (Sales call)**: Concierge AI declines a cold
    sales call per the subscriber's preferences, and logs why.
-5. **Part 4 — Protection from scams (Rogers impersonation)**: Doorperson AI
+5. **Part 4 — Protection from scams (Rogers impersonation)**: Concierge AI
    detects urgency + payment-demand language, flags high risk, and
    terminates the call — never collecting the caller's information.
 6. Open **Call History** to show the full reasoning trail was logged (with
@@ -219,7 +219,7 @@ If you need to (re)link a repo manually instead:
 1. Open `src/data/scenarios.ts` and add a new object to the exported array
    matching the `Scenario` type (`src/types.ts`): `id`, `title`, `summary`,
    `category`, an ordered `steps` array (each with `callerLine` and/or
-   `doorpersonLine`, optional `understanding` patch, optional `riskSignals`,
+   `conciergeLine`, optional `understanding` patch, optional `riskSignals`,
    optional `alternateCallerLines` for Interactive Caller mode), and a final
    `disposition` + `presenterNotes`.
 2. If the scenario should appear in the Executive Demo sequence, add its `id`

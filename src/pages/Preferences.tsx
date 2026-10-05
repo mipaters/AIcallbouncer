@@ -192,7 +192,7 @@ export function Preferences() {
         </div>
       </div>
 
-      <div className="section-title">Doorperson Greeting &amp; Voice</div>
+      <div className="section-title">Concierge Greeting &amp; Voice</div>
       <div className="card">
         <label className="call-meta">Greeting style</label>
         <select
