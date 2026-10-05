@@ -1,11 +1,13 @@
 import { app, HttpRequest, HttpResponseInit, InvocationContext } from "@azure/functions";
-import { isAzureOpenAIConfigured, isAzureSpeechConfigured, readEnv } from "../shared/env";
+import { isAzureOpenAIConfigured, isAzureSpeechConfigured, isCallStorageConfigured, isTwilioValidationConfigured, readEnv } from "../shared/env";
 import { jsonResponse } from "../shared/http";
 
 export async function demoStatus(_request: HttpRequest, _context: InvocationContext): Promise<HttpResponseInit> {
   const env = readEnv();
   const openAIConfigured = isAzureOpenAIConfigured(env);
   const speechConfigured = isAzureSpeechConfigured(env);
+  const realCallsConfigured = isCallStorageConfigured(env);
+  const twilioValidationConfigured = isTwilioValidationConfigured(env);
 
   const mode = openAIConfigured && speechConfigured ? "connected" : openAIConfigured || speechConfigured ? "partial" : "simulation";
 
@@ -20,6 +22,8 @@ export async function demoStatus(_request: HttpRequest, _context: InvocationCont
     mode,
     azureOpenAIConfigured: openAIConfigured,
     azureSpeechConfigured: speechConfigured,
+    realCallsConfigured,
+    twilioValidationConfigured,
     message,
   });
 }

@@ -115,9 +115,51 @@ See [`.env.example`](./.env.example) and [`api/local.settings.json.example`](./a
 | `AZURE_OPENAI_API_KEY` | Connected Mode | Store as a Function App secret, never commit it |
 | `AZURE_OPENAI_DEPLOYMENT` | Connected Mode | Your chat-completion deployment name |
 | `AZURE_SPEECH_KEY` / `AZURE_SPEECH_REGION` | Optional transcription | Only used by `/api/transcribe-segment`; without it, provided text is echoed back |
+| `AZURE_STORAGE_CONNECTION_STRING` | Real calls (Twilio) | Full `AccountName=...;AccountKey=...` connection string for an Azure Storage Account (Table + Blob) |
+| `TWILIO_AUTH_TOKEN` | Real calls (Twilio) | Used to validate that inbound webhooks really came from Twilio |
+| `PUBLIC_BASE_URL` | Real calls (Twilio) | Public HTTPS origin of the deployed app, e.g. `https://kind-rock-0966aa80f.6.azurestaticapps.net` |
 
 No `local.settings.json` or `.env` file is committed to this repository — only
 `.example` templates. **Do not commit real keys.**
+
+### Real phone calls via Twilio (optional)
+
+Beyond the scripted demo, the app can screen **real inbound phone calls** to a
+Twilio number you control, using the same decision engine:
+
+1. **Create an Azure Storage Account** (general-purpose v2, any region/tier)
+   to hold live call state and short-lived TTS audio clips. Copy its
+   connection string from **Access keys**.
+2. In the Static Web App resource → **Configuration**, add
+   `AZURE_STORAGE_CONNECTION_STRING`, `TWILIO_AUTH_TOKEN` (from the Twilio
+   Console), and `PUBLIC_BASE_URL` (your deployed site's origin).
+3. In the **Twilio Console**, open your phone number's configuration and set
+   **"A call comes in"** to a webhook:
+   `POST https://<your-site>/api/twilio/voice`
+   Optionally set a **Call status changes** webhook to
+   `POST https://<your-site>/api/twilio/status`.
+4. Open the **Live Calls** page in the app and enter your own phone number
+   (E.164 format, e.g. `+12895551234`) as the forwarding number — this is the
+   number Doorperson AI dials when it decides to connect a call through to
+   you.
+5. Call your Twilio number. The **Live Calls** page polls `GET
+   /api/live-calls` every ~2 seconds and shows the live transcript and the
+   AI's decision as the call progresses.
+
+How it works end to end: Twilio posts the caller's speech-to-text result to
+`/api/twilio/gather`, which runs the same `decisionEngine`/Azure OpenAI logic
+used by the simulated demo, then returns TwiML that either `<Dial>`s your
+forwarding number, asks a clarifying follow-up, politely declines, or records
+and transcribes a voicemail. Doorperson AI's spoken responses use Azure Speech
+neural TTS (falling back to Twilio's built-in voice if Azure Speech isn't
+configured); synthesized audio is stored as a short-lived (60-minute) Blob SAS
+URL for Twilio's `<Play>` verb to fetch.
+
+**Known gaps in the real-call path** (see §8 for the full list): the trusted
+caller list lives only in the browser, so real callers are never
+auto-recognized as trusted; the Live Calls view uses polling rather than a
+push/websocket update; and voicemail transcription uses Twilio's own
+speech-to-text rather than Azure Speech.
 
 ---
 
@@ -221,6 +263,12 @@ To replace them:
   5-part structure described in the original spec (see §5 above).
 - Phone numbers are masked (all but last 2 digits) everywhere they are
   rendered or logged, both client-side and in the API's validation helpers.
+- Real-call support (§3) has its own gaps: the trusted-caller list is
+  browser-only and never applies to real Twilio callers; the Live Calls page
+  reflects state via ~2-second polling rather than a push channel; voicemail
+  transcription is done by Twilio's own speech-to-text, not Azure Speech;
+  and Twilio webhook signature validation is skipped (fails open, logged as
+  a warning) if `TWILIO_AUTH_TOKEN`/`PUBLIC_BASE_URL` aren't set.
 
 ---
 
@@ -236,9 +284,12 @@ src/
   components/              Shared UI (Badge, Disclaimer) + AppShell navigation
   pages/                   One file per route
 api/
-  src/functions/           One Azure Function per /api route (v4 programming model)
+  src/functions/           One Azure Function per /api route (v4 programming model),
+                           including twilioVoice/twilioGather/twilioTranscription/
+                           twilioStatus, liveCalls, callForwardingNumber
   src/shared/              env.ts, validation.ts, decisionEngine.ts (backend copy),
-                           azureOpenAI.ts, http.ts
+                           azureOpenAI.ts, http.ts, callStore.ts, twilioHelpers.ts,
+                           azureSpeechTts.ts, audioStorage.ts
 .github/workflows/         Azure Static Web Apps CI/CD
 staticwebapp.config.json   SWA routing/headers
 .env.example               Env var template (frontend build)

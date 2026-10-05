@@ -12,6 +12,7 @@ import { Privacy } from "./pages/Privacy";
 import { Architecture } from "./pages/Architecture";
 import { DemoSettings } from "./pages/DemoSettings";
 import { About } from "./pages/About";
+import { LiveCalls } from "./pages/LiveCalls";
 
 export default function App() {
   return (
@@ -21,6 +22,7 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/live-demo" element={<LiveDemo />} />
+            <Route path="/live-calls" element={<LiveCalls />} />
             <Route path="/history" element={<CallHistory />} />
             <Route path="/history/:id" element={<CallDetail />} />
             <Route path="/preferences" element={<Preferences />} />
