@@ -123,21 +123,25 @@ No `local.settings.json` or `.env` file is committed to this repository — only
 
 ## 4. Deploying to Azure Static Web Apps
 
-1. Push this repo to GitHub (or use an existing remote).
-2. In the Azure Portal, create a **Static Web App** resource, choosing
-   **GitHub** as the deployment source, this repository/branch, and:
-   - App location: `/`
-   - Api location: `api`
-   - Output location: `dist`
-3. Azure will generate a deployment token and automatically create
-   `.github/workflows/azure-static-web-apps.yml` — this repo already ships that
-   workflow, so instead add the token as the repository secret
-   `AZURE_STATIC_WEB_APPS_API_TOKEN` (Settings → Secrets and variables →
-   Actions) and push to `main` to trigger the included workflow.
-4. In the Static Web App resource → **Configuration**, add the Azure OpenAI /
+This repo is linked to an Azure Static Web App resource. When you link a
+GitHub repo from the Azure Portal, Azure commits its own workflow file (named
+after the resource, e.g. `.github/workflows/azure-static-web-apps-<name>.yml`)
+with a deployment token secret already wired up
+(`AZURE_STATIC_WEB_APPS_API_TOKEN_<NAME>`) — you do not need to create that
+secret yourself. That generated workflow triggers on pushes/PRs to whichever
+branch was selected when the resource was created.
+
+If you need to (re)link a repo manually instead:
+
+1. In the Azure Portal, create a **Static Web App** resource, choosing
+   **GitHub** as the deployment source and this repository/branch.
+2. Set App location: `/`, Api location: `api`, Output location: `dist`
+   (the generated workflow defaults `api_location` to `""` — edit it to
+   `"api"` so the Azure Functions backend deploys too).
+3. In the Static Web App resource → **Configuration**, add the Azure OpenAI /
    Speech application settings listed above if you want Connected Mode in the
    deployed environment. Leave them blank to ship in Simulation Mode.
-5. Confirm the deployment: open the generated `*.azurestaticapps.net` URL and
+4. Confirm the deployment: open the generated `*.azurestaticapps.net` URL and
    check the **Architecture** page status badge matches your configuration.
 
 ---
