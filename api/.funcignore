@@ -1,0 +1,7 @@
+*.js
+!jest.config.js
+node_modules/
+dist/
+.vscode/
+local.settings.json
+test/
